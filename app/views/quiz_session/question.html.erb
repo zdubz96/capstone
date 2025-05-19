@@ -1,0 +1,48 @@
+<h2>Question <%= @number %></h2>
+<p><%= @question.question %></p>
+
+<form action="/quiz_sessions/<%= @session.id %>/questions/<%= @number %>/answer" method="post">
+  <!-- CSRF protection -->
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <% @question.options.each do |key, value| %>
+    <div>
+      <label>
+        <input type="radio" name="answer" value="<%= key %>"
+          <% if @session.quiz_session_questions.find_by(position: @number)&.answer == key %>checked<% end %> >
+        <strong><%= key.upcase %>.</strong> <%= value %>
+      </label>
+    </div>
+  <% end %>
+
+  <% if params[:show_answer] %>
+    <% correct_key = @question.correct_option %>
+    <% user_answer = @session.quiz_session_questions.find_by(position: @number)&.answer %>
+
+
+    <div style="margin-top: 1em;">
+      <% if user_answer == correct_key %>
+        <p style="color: green;"><strong>✅ Correct!</strong></p>
+      <% else %>
+        <p style="color: red;"><strong>❌ Incorrect.</strong></p>
+        <p>The correct answer is: <strong><%= correct_key.upcase %>. <%= @question.options[correct_key] %></strong></p>
+        <p> Explanation: <%= @question.explanation %></p>
+      <% end %>
+    </div>
+  
+    <div style="margin-top: 20px;">
+    <% if @number < 10 %>
+      <%= link_to "Next Question", quiz_session_question_path(@session, number: @number + 1), class: "btn btn-primary", role: "button" %>
+    <% else %>
+      <%= link_to "Finish Quiz", authenticated_root_path, class: "btn btn-success" %>
+    <% end %>
+  <% else %>
+    <div style="margin-top: 20px;">
+      <input type="submit" value="Submit answer">
+  <% end %>
+
+  
+  
+<% if flash[:alert] %>
+  <p style="color: red;"><%= flash[:alert] %></p>
+<% end %>

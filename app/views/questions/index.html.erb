@@ -1,0 +1,214 @@
+<div>
+  <div>
+    <h1>
+      List of all questions
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new question
+    </h2>
+
+    <form action="/insert_question" method="post">
+      <div>
+        <label for="question_box">
+          Question
+        </label>
+
+        <input type="text" id="question_box" name="query_question">
+      </div>
+
+      <div>
+        <label for="option_1_box">
+          Option 1
+        </label>
+
+        <input type="text" id="option_1_box" name="query_option_1">
+      </div>
+
+      <div>
+        <label for="option_2_box">
+          Option 2
+        </label>
+
+        <input type="text" id="option_2_box" name="query_option_2">
+      </div>
+
+      <div>
+        <label for="option_3_box">
+          Option 3
+        </label>
+
+        <input type="text" id="option_3_box" name="query_option_3">
+      </div>
+
+      <div>
+        <label for="option_4_box">
+          Option 4
+        </label>
+
+        <input type="text" id="option_4_box" name="query_option_4">
+      </div>
+
+      <div>
+        <label for="correct_option_box">
+          Correct option
+        </label>
+
+        <input type="text" id="correct_option_box" name="query_correct_option">
+      </div>
+
+      <div>
+        <label for="explanation_box">
+          Explanation
+        </label>
+
+        <input type="text" id="explanation_box" name="query_explanation">
+      </div>
+
+      <div>
+        <label for="topic_id_box">
+          Topic
+        </label>
+
+        <input type="text" id="topic_id_box" name="query_topic_id">
+      </div>
+
+      <div>
+        <label for="difficulty_box">
+          Difficulty
+        </label>
+
+        <input type="text" id="difficulty_box" name="query_difficulty">
+      </div>
+
+      <button>
+        Create question
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Question
+        </th>
+
+        <th>
+          Option 1
+        </th>
+
+        <th>
+          Option 2
+        </th>
+
+        <th>
+          Option 3
+        </th>
+
+        <th>
+          Option 4
+        </th>
+
+        <th>
+          Correct option
+        </th>
+
+        <th>
+          Explanation
+        </th>
+
+        <th>
+          Topic
+        </th>
+
+        <th>
+          Difficulty
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_questions.each do |a_question| %>
+      <tr>
+        <td>
+          <%= a_question.id %>
+        </td>
+
+        <td>
+          <%= a_question.question %>
+        </td>
+
+        <td>
+          <%= a_question.option_1 %>
+        </td>
+
+        <td>
+          <%= a_question.option_2 %>
+        </td>
+
+        <td>
+          <%= a_question.option_3 %>
+        </td>
+
+        <td>
+          <%= a_question.option_4 %>
+        </td>
+
+        <td>
+          <%= a_question.correct_option %>
+        </td>
+
+        <td>
+          <%= a_question.explanation %>
+        </td>
+
+        <td>
+          <%= a_question.topic_id %>
+        </td>
+
+        <td>
+          <%= a_question.difficulty %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_question.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_question.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/questions/<%= a_question.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

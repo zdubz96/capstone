@@ -1,0 +1,191 @@
+<div>
+  <div>
+    <h1>
+      Question #<%= @the_question.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/questions">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_question/<%= @the_question.id %>">
+          Delete question
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Question
+      </dt>
+      <dd>
+        <%= @the_question.question %>
+      </dd>
+
+      <dt>
+        Option 1
+      </dt>
+      <dd>
+        <%= @the_question.option_1 %>
+      </dd>
+
+      <dt>
+        Option 2
+      </dt>
+      <dd>
+        <%= @the_question.option_2 %>
+      </dd>
+
+      <dt>
+        Option 3
+      </dt>
+      <dd>
+        <%= @the_question.option_3 %>
+      </dd>
+
+      <dt>
+        Option 4
+      </dt>
+      <dd>
+        <%= @the_question.option_4 %>
+      </dd>
+
+      <dt>
+        Correct option
+      </dt>
+      <dd>
+        <%= @the_question.correct_option %>
+      </dd>
+
+      <dt>
+        Explanation
+      </dt>
+      <dd>
+        <%= @the_question.explanation %>
+      </dd>
+
+      <dt>
+        Topic
+      </dt>
+      <dd>
+        <%= @the_question.topic_id %>
+      </dd>
+
+      <dt>
+        Difficulty
+      </dt>
+      <dd>
+        <%= @the_question.difficulty %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_question.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_question.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit question
+    </h2>
+
+    <form action="/modify_question/<%= @the_question.id %>"  method="post" >
+      <div>
+        <label for="question_box">
+          Question
+        </label>
+
+        <input type="text" id="question_box" name="query_question" value="<%= @the_question.question %>">
+      </div>
+
+      <div>
+        <label for="option_1_box">
+          Option 1
+        </label>
+
+        <input type="text" id="option_1_box" name="query_option_1" value="<%= @the_question.option_1 %>">
+      </div>
+
+      <div>
+        <label for="option_2_box">
+          Option 2
+        </label>
+
+        <input type="text" id="option_2_box" name="query_option_2" value="<%= @the_question.option_2 %>">
+      </div>
+
+      <div>
+        <label for="option_3_box">
+          Option 3
+        </label>
+
+        <input type="text" id="option_3_box" name="query_option_3" value="<%= @the_question.option_3 %>">
+      </div>
+
+      <div>
+        <label for="option_4_box">
+          Option 4
+        </label>
+
+        <input type="text" id="option_4_box" name="query_option_4" value="<%= @the_question.option_4 %>">
+      </div>
+
+      <div>
+        <label for="correct_option_box">
+          Correct option
+        </label>
+
+        <input type="text" id="correct_option_box" name="query_correct_option" value="<%= @the_question.correct_option %>">
+      </div>
+
+      <div>
+        <label for="explanation_box">
+          Explanation
+        </label>
+
+        <input type="text" id="explanation_box" name="query_explanation" value="<%= @the_question.explanation %>">
+      </div>
+
+      <div>
+        <label for="topic_id_box">
+          Topic
+        </label>
+
+        <input type="text" id="topic_id_box" name="query_topic_id" value="<%= @the_question.topic_id %>">
+      </div>
+
+      <div>
+        <label for="difficulty_box">
+          Difficulty
+        </label>
+
+        <input type="text" id="difficulty_box" name="query_difficulty" value="<%= @the_question.difficulty %>">
+      </div>
+
+      <button>
+        Update question
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
