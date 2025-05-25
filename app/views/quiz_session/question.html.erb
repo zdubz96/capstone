@@ -1,5 +1,7 @@
 <h2>Question <%= @number %></h2>
 <p><%= @question.question %></p>
+<p><%= @question.difficulty %></p>
+<p><%= @question.topic.topic %></p>
 
 <form action="/quiz_sessions/<%= @session.id %>/questions/<%= @number %>/answer" method="post">
   <!-- CSRF protection -->

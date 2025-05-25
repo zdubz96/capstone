@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_19_203923) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_25_175524) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,6 +32,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_19_203923) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "answer"
+    t.boolean "correct"
     t.index ["question_id"], name: "index_quiz_session_questions_on_question_id"
     t.index ["quiz_session_id"], name: "index_quiz_session_questions_on_quiz_session_id"
   end
@@ -58,6 +59,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_19_203923) do
     t.integer "correct"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "easy_attempts", default: 0, null: false
+    t.integer "easy_correct", default: 0, null: false
+    t.integer "medium_attempts", default: 0, null: false
+    t.integer "medium_correct", default: 0, null: false
+    t.integer "hard_attempts", default: 0, null: false
+    t.integer "hard_correct", default: 0, null: false
     t.index ["topic_id"], name: "index_user_topic_competencies_on_topic_id"
     t.index ["user_id"], name: "index_user_topic_competencies_on_user_id"
   end

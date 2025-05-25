@@ -4,7 +4,7 @@ class QuizSessionsController < ApplicationController
   end
 
   def create
-    user = User.first # Or current_user if using authentication
+    user = current_user || User.first # Or current_user if using authentication
     session = QuizSession.create!(user: user)
 
     previously_answered_ids = QuizSessionQuestion
@@ -12,10 +12,20 @@ class QuizSessionsController < ApplicationController
                                 .where(quiz_sessions: { user_id: user.id })
                                 .pluck(:question_id)
 
-    questions = Question.where.not(id: previously_answered_ids)
-                        .order("RANDOM()")
-                        .limit(10)
+    questions=[]
+    Topic.all.each do |topic|
+      # Get user's average difficulty for this topic, fallback to 3
+      competency = UserTopicCompetency.find_by(user: user, topic: topic)
+      range = competency&.unlocked_difficulty_range || (1..3)
 
+      # Select up to 2 adapted questions per topic
+      topic_questions = Question.where(topic: topic, difficulty: range)
+                                .where.not(id: previously_answered_ids)
+                                .order("RANDOM()")
+                                .limit(2)
+
+      questions += topic_questions
+    end
     if questions.size < 10
       redirect_to root_path, alert: "Not enough questions to start quiz."
       return
@@ -59,15 +69,22 @@ class QuizSessionsController < ApplicationController
       puts "No answer selected!" if selected_option.blank?
       return
     end
+
     qsq = session.quiz_session_questions.find_by(position: @number)
-    qsq.update(answer: selected_option)
+    correct = selected_option == qsq.question.correct_option
+
+    qsq.update(answer: selected_option, correct: selected_option == qsq.question.correct_option)
+
     user = session.user
     topic = qsq.question.topic
     difficulty = qsq.question.difficulty.to_i
 
-    competency = UserTopicCompetency.find_or_initialize_by(user: user, topic: topic)
-    competency.update_stats!(correct: qsq.correct?, difficulty: difficulty)
-
+    UserTopicCompetency.update_difficulty_band!(
+      user: user,
+      topic: topic,
+      difficulty: qsq.question.difficulty,
+      correct: qsq.correct
+    )
     redirect_to quiz_session_question_path(session.id, number: @number, show_answer: true) and return
   end
 end
