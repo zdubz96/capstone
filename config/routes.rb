@@ -54,6 +54,8 @@ Rails.application.routes.draw do
     end
   end
 
+  root to: redirect('/users/sign_in')
+
   post("/quiz_sessions", { :controller => "quiz_sessions", :action => "create" })
 
   get("/quiz_sessions/:quiz_session_id/questions/:number", { :controller => "quiz_sessions", :action => "question", :as => "quiz_session_question" })
