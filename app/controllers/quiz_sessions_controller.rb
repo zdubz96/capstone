@@ -13,31 +13,14 @@ class QuizSessionsController < ApplicationController
                                 .pluck(:question_id)
 
     questions=[]
-    Topic.all.each do |topic|
-      # Get user's average difficulty for this topic, fallback to 3
-      competency = UserTopicCompetency.find_by(user: user, topic: topic)
-      range = competency&.unlocked_difficulty_range || (1..3)
 
-      # Select up to 2 adapted questions per topic
-      topic_questions = Question.where(topic: topic, difficulty: range)
-                                .where.not(id: previously_answered_ids)
-                                .order("RANDOM()")
-                                .limit(2)
-
-      questions += topic_questions
-    end
-    if questions.size < 10
-      redirect_to root_path, alert: "Not enough questions to start quiz."
-      return
+    questions = Question.order("RANDOM()").limit(10)
+    questions.each_with_index do |question, i|
+      session.quiz_session_questions.create!(question: question, position: i + 1)
     end
 
-    questions.each_with_index do |question, index|
-      session.quiz_session_questions.create!(
-        question: question,
-        position: index + 1
-      )
     end
-
+    puts "Questions selected: #{session.quiz_session_questions.count}"
     redirect_to quiz_session_question_path(session, number: 1)
   end
 
