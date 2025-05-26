@@ -55,7 +55,6 @@ class UserTopicCompetency < ApplicationRecord
   
   def self.update_difficulty_band!(user:, topic:, difficulty:, correct:)
     competency = find_or_initialize_by(user: user, topic: topic)
-
     case difficulty
     when 1..3
       competency.easy_attempts += 1
