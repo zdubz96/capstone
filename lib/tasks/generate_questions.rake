@@ -1,7 +1,8 @@
 namespace :questions do
   desc "Generate structured quiz questions for each topic and difficulty (1–10)"
   task generate_structured: :environment do
-    Topic.find_each do |topic|
+    excluded_names = ["Math", "History"]
+    Topic.find_each.where.not(topic: excluded_names) do |topic|
       puts "📚 Generating questions for topic: #{topic.topic}"
 
       (1..10).each do |difficulty|
