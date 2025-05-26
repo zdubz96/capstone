@@ -2,7 +2,7 @@ namespace :topics do
   desc "Generate topics"
   task generate_topics: :environment do
     Topic.create!(
-            topic: "Math"
+            topic: "Math",
             topic: "History"
           )
   end
