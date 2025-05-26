@@ -17,7 +17,6 @@ class QuizSessionsController < ApplicationController
     questions = Question.order("RANDOM()").limit(10)
     questions.each_with_index do |question, i|
       session.quiz_session_questions.create!(question: question, position: i + 1)
-    end
 
     end
     puts "Questions selected: #{session.quiz_session_questions.count}"
