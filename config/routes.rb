@@ -62,5 +62,6 @@ Rails.application.routes.draw do
 
   post("/quiz_sessions/:quiz_session_id/questions/:number/answer", { :controller => "quiz_sessions", :action => "submit_answer"})
 
+  get("/quiz_sessions", to: redirect("/"))
 
 end
