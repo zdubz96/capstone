@@ -2,12 +2,20 @@ namespace :questions do
   desc "Generate structured quiz questions for each topic and difficulty (1–10)"
   task generate_structured: :environment do
     excluded_names = ["Math", "History"]
+    questions_per_difficulty = 5
     Topic.where.not(topic: excluded_names).find_each do |topic|
       puts "📚 Generating questions for topic: #{topic.topic}"
       (1..10).each do |difficulty|
-        puts "  ▶️ Difficulty level: #{difficulty}"
+        existing_count = Question.where(topic_id: topic.id, difficulty: difficulty).count
+        to_generate = questions_per_difficulty - existing_count
+        if to_generate <= 0
+          puts "  ✅ Difficulty level #{difficulty} already has #{existing_count} questions. Skipping..."
+          next
+        end
+        puts "  ▶️ Difficulty level: #{difficulty} (Need to generate #{to_generate})"
         saved_count = 0
-        while saved_count<5
+        while saved_count < to_generate
+          puts "    - Generating question #{saved_count + 1}/#{to_generate}..."
           recent_questions = Question.where(topic_id: topic.id)
                            .order(created_at: :desc)
                            .pluck(:question)
